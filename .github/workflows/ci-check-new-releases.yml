@@ -57,8 +57,6 @@ jobs:
           VERSIONS_JSON
           fi
 
-          printf "done 1"
-
           if curl -sLIo /dev/null --fail "http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD"; then
               config_sub="$(git ls-remote "https://git.savannah.gnu.org/git/config.git" | head -n1 | awk '{ print substr($1,1,8) }')"
               printf '%s\n' "savannah.gnu.org is reachable, using git to get config.sub commit hash of remote version"
@@ -70,8 +68,6 @@ jobs:
 
           declare -A current_versions
           eval "$(jq -r 'to_entries[]|@sh"current_versions[\(.key)]=\(.value)"' remote_versions.json)"
-
-          printf "done 2"
 
           declare -A remote_versions
           remote_versions[CONFIG_SUB_REV]="${config_sub}"
@@ -92,8 +88,6 @@ jobs:
             fi
           done
 
-          printf "done 3"
-
           declare -A remote_urls_dl
           remote_urls_dl[CONFIG_SUB_REV]="https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=${remote_versions[CONFIG_SUB_REV]}"
           remote_urls_dl[GCC_VER]="${gnu_mirror_url}/gcc/gcc-${remote_versions[GCC_VER]}/gcc-${remote_versions[GCC_VER]}.tar.xz"
@@ -104,8 +98,6 @@ jobs:
           remote_urls_dl[MPFR_VER]="${gnu_mirror_url}/mpfr/mpfr-${remote_versions[MPFR_VER]}.tar.xz"
           remote_urls_dl[LINUX_VER]="https://mirrors.edge.kernel.org/pub/linux/kernel/v6.x/linux-${remote_versions[LINUX_VER]}.tar.xz"
           remote_urls_dl[ISL_VER]="https://libisl.sourceforge.io/isl-${remote_versions[ISL_VER]}.tar.xz"
-
-          printf "done 4"
 
           ver() {
             local test_array
@@ -139,8 +131,6 @@ jobs:
               fi
             fi
           done
-
-          printf "done 5"
 
           cat > "versions.json" <<- VERSIONS_JSON
           {
