@@ -36,6 +36,7 @@ jobs:
       - name: boot strap
         id: boot_strap_release
         run: |
+          set -x
           if curl -sLIf "https://github.com/${{ github.repository }}/releases/latest/download/versions.json" &> /dev/null; then
               until curl -sLf "https://github.com/${{ github.repository }}/releases/latest/download/versions.json" > remote_versions.json; do
                 echo "waiting for URL."
