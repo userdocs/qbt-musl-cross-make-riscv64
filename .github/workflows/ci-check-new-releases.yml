@@ -36,26 +36,25 @@ jobs:
       - name: boot strap
         id: boot_strap_release
         run: |
-          set -x
           if curl -sLIf "https://github.com/${{ github.repository }}/releases/latest/download/versions.json" &> /dev/null; then
               until curl -sLf "https://github.com/${{ github.repository }}/releases/latest/download/versions.json" > remote_versions.json; do
                 echo "waiting for URL."
                 sleep 2
               done
           else
-              cat > "remote_versions.json" <<- VERSIONS_JSON
-              {
-                "CONFIG_SUB_REV": "0",
-                "GCC_VER": "0",
-                "BINUTILS_VER": "0",
-                "MUSL_VER": "0",
-                "GMP_VER": "0",
-                "MPC_VER": "0",
-                "MPFR_VER": "0",
-                "LINUX_VER": "0",
-                "ISL_VER": "0"
-              }
-              VERSIONS_JSON
+          cat > "remote_versions.json" <<- VERSIONS_JSON
+          {
+            "CONFIG_SUB_REV": "0",
+            "GCC_VER": "0",
+            "BINUTILS_VER": "0",
+            "MUSL_VER": "0",
+            "GMP_VER": "0",
+            "MPC_VER": "0",
+            "MPFR_VER": "0",
+            "LINUX_VER": "0",
+            "ISL_VER": "0"
+          }
+          VERSIONS_JSON
           fi
 
           if curl -sLIo /dev/null --fail "http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD"; then
